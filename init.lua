@@ -17,7 +17,7 @@
 --     git clone https://github.com/rgieseke/ta-bibtex.git bibtex
 --
 -- ## Usage
--- In your LaTeX or ConTeXt module you can load this module, define the
+-- You can load this module in your LaTeX or ConTeXt module, define the
 -- locations of your BibTeX files and include it in snippets.
 -- To only add a key you could assign `select_reference` to a shortcut key.<br>
 -- Be aware however that the parsing code might not work for all possible ways
