@@ -1,6 +1,6 @@
 ## BibTeX module for the [Textadept](http://code.google.com/p/textadept/) editor
 
-Snippets and key commands are described in the
+More info in the
 [annotated source](http://rgieseke.github.com/ta-bibtex/).
 
 ### License
