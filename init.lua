@@ -25,19 +25,19 @@
 -- [Google Scholar](http://scholar.google.com/intl/en/scholar/help.html#export)
 -- and other sources.<br>
 -- Example code in your `tex` or `latex` module:
---     require('bibtex')
---     _m.bibtex.files = {'/home/robert/documents/bibligraphy.bib'}
+--     _M.bibtex = require('bibtex')
+--     _M.bibtex.files = {'/home/robert/documents/bibligraphy.bib'}
 --
 --     -- ConTeXt snippet example
 --     snippets.tex = {
 --         -- ...
---         c = "\\cite[%%<_m.bibtex.select_reference()>]%%0",
+--         c = "\\cite[%%<_M.bibtex.select_reference()>]%%0",
 --     }
 --
 --     -- LaTeX snippet example
 --     snippets.tex = {
 --         -- ...
---         c = "\\cite{%%<_m.bibtex.select_reference()>}%%0",
+--         c = "\\cite{%%<_M.bibtex.select_reference()>}%%0",
 --     }
 local M = {}
 
@@ -50,10 +50,10 @@ end
 
 -- ## Fields
 
--- __files__: A table with BibTeX files.
+-- ___M.bibtex.files__: A table with BibTeX files.
 M.files = {}
 
--- __references__: A table with references and their BibTeX key.
+-- ___M.bibtex.references__: A table with references and their BibTeX key.
 M.references = {}
 
 
