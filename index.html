@@ -49,7 +49,7 @@ git clone https://github.com/rgieseke/ta-bibtex.git bibtex
 </code></pre>
 
 <h2>Usage</h2>
-<p>In your LaTeX or ConTeXt module you can load this module, define the
+<p>You can load this module in your LaTeX or ConTeXt module, define the
 locations of your BibTeX files and include it in snippets.
 To only add a key you could assign <code>select_reference</code> to a shortcut key.<br>
 Be aware however that the parsing code might not work for all possible ways
@@ -57,28 +57,26 @@ of writing BibTeX files. For me it worked well with the output from
 <a href="http://scholar.google.com/intl/en/scholar/help.html#export">Google Scholar</a>
 and other sources.<br>
 Example code in your <code>tex</code> or <code>latex</code> module:</p>
-<pre><code>require('bibtex')
-_m.bibtex.files = {'/home/robert/documents/bibligraphy.bib'}
+<pre><code>_M.bibtex = require('bibtex')
+_M.bibtex.files = {'/home/robert/documents/bibligraphy.bib'}
 
 -- ConTeXt snippet example
 snippets.tex = {
     -- ...
-    c = "\\cite[%&lt;_m.bibtex.select_reference()&gt;]%0",
+    c = "\\cite[%&lt;_M.bibtex.select_reference()&gt;]%0",
 }
 
 -- LaTeX snippet example
 snippets.tex = {
     -- ...
-    c = "\\cite{%&lt;_m.bibtex.select_reference()&gt;}%0",
+    c = "\\cite{%&lt;_M.bibtex.select_reference()&gt;}%0",
 }
 </code></pre>
 
 
 </td>
 <td class="code">
-  <div class="highlight"><pre>
-
-<span class="nt">module</span>(<span class="s">'_m.bibtex'</span>, package.seeall)
+  <div class="highlight"><pre><span class="k">local</span> M = {}
 </pre></div>
 </td>
 </tr><tr id="section-2">
@@ -106,7 +104,7 @@ snippets.tex = {
 
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">function</span> <span class="nf">set_buffer_properties</span>()
+  <div class="highlight"><pre><span class="k">function</span> <span class="nf">M.set_buffer_properties</span>()
 
 <span class="k">end</span>
 </pre></div>
@@ -131,12 +129,12 @@ snippets.tex = {
     <a class="pilcrow" href="#section-5">&#182;</a>
   </div>
   
-<p><strong>files</strong>: A table with BibTeX files.</p>
+<p><strong>_M.bibtex.files</strong>: A table with BibTeX files.</p>
 
 
 </td>
 <td class="code">
-  <div class="highlight"><pre>files = {}
+  <div class="highlight"><pre>M.files = {}
 </pre></div>
 </td>
 </tr><tr id="section-6">
@@ -145,12 +143,12 @@ snippets.tex = {
     <a class="pilcrow" href="#section-6">&#182;</a>
   </div>
   
-<p><strong>references</strong>: A table with references and their BibTeX key.</p>
+<p><strong>_M.bibtex.references</strong>: A table with references and their BibTeX key.</p>
 
 
 </td>
 <td class="code">
-  <div class="highlight"><pre>references = {}
+  <div class="highlight"><pre>M.references = {}
 
 </pre></div>
 </td>
@@ -180,7 +178,7 @@ joined for an entry in the <code>references</code> table, followed by its BibTeX
 
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">function</span> <span class="nf">parse_entries</span>(filename)
+  <div class="highlight"><pre><span class="k">local</span> <span class="k">function</span> <span class="nf">parse_entries</span>(filename)
   file = io.open(filename, <span class="s">'rb'</span>)
   bibentries = file:read(<span class="s">'*all'</span>)
   file:close()
@@ -206,7 +204,7 @@ joined for an entry in the <code>references</code> table, followed by its BibTeX
 
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">function</span> <span class="nf">read_bibfiles</span>()
+  <div class="highlight"><pre><span class="k">local</span> <span class="k">function</span> <span class="nf">read_bibfiles</span>()
   references = {}
   <span class="k">for</span> _, bibfile <span class="k">in</span> <span class="nt">ipairs</span>(_m.bibtex.files) <span class="k">do</span>
     parse_entries(bibfile)
@@ -226,7 +224,7 @@ entry.</p>
 
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">function</span> <span class="nf">select_reference</span>()
+  <div class="highlight"><pre><span class="k">function</span> <span class="nf">M.select_reference</span>()
   <span class="k">if</span> #files > 0 <span class="o">and</span> #references == 0 <span class="k">then</span>
     read_bibfiles()
   <span class="k">end</span>
@@ -267,8 +265,7 @@ entry.</p>
 
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">if</span> <span class="nt">type</span>(_G.snippets) == <span class="s">'table'</span> <span class="k">then</span>
-  _G.snippets.bibtex = {
+  <div class="highlight"><pre>snippets.bibtex = {
     [<span class="s">'@'</span>] = <span class="s">[[
 @&#37;1(article){&#37;2(key),
  author = {&#37;3},
@@ -278,7 +275,8 @@ entry.</p>
 }
 ]]</span>
   }
-<span class="k">end</span>
+
+<span class="k">return</span> M
 </pre></div>
 </td>
 </tr></tbody>
