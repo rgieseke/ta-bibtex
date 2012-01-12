@@ -39,31 +39,29 @@
 --         -- ...
 --         c = "\\cite{%%<_m.bibtex.select_reference()>}%%0",
 --     }
-
-
-module('_m.bibtex', package.seeall)
+local M = {}
 
 -- ## Settings
 
 -- Sets default buffer properties for BibTeX files.
-function set_buffer_properties()
+function M.set_buffer_properties()
 
 end
 
 -- ## Fields
 
 -- __files__: A table with BibTeX files.
-files = {}
+M.files = {}
 
 -- __references__: A table with references and their BibTeX key.
-references = {}
+M.references = {}
 
 
 -- ## Commands
 
 -- Try to read entries from a BibTeX file. Author, year and title are
 -- joined for an entry in the `references` table, followed by its BibTeX key.
-function parse_entries(filename)
+local function parse_entries(filename)
   file = io.open(filename, 'rb')
   bibentries = file:read('*all')
   file:close()
@@ -78,7 +76,7 @@ function parse_entries(filename)
 end
 
 -- Read BibTeX entries from the files listed in the `files` table.
-function read_bibfiles()
+local function read_bibfiles()
   references = {}
   for _, bibfile in ipairs(_m.bibtex.files) do
     parse_entries(bibfile)
@@ -87,7 +85,7 @@ end
 
 -- Present a filtered list dialog and return the BibTeX key of the selected
 -- entry.
-function select_reference()
+function M.select_reference()
   if #files > 0 and #references == 0 then
     read_bibfiles()
   end
@@ -105,8 +103,7 @@ end
 -- ## Snippets
 
 -- Container for BibTeX-specific snippets.
-if type(_G.snippets) == 'table' then
-  _G.snippets.bibtex = {
+snippets.bibtex = {
     ['@'] = [[
 @%1(article){%2(key),
  author = {%3},
@@ -116,4 +113,5 @@ if type(_G.snippets) == 'table' then
 }
 ]]
   }
-end
+
+return M
