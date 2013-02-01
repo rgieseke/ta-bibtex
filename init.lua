@@ -1,5 +1,5 @@
 -- The bibtex module for the
--- [Textadept](http://code.google.com/p/textadept/) editor.
+-- [Textadept](http://foicica.com/textadept/) editor.
 -- It provides helpers for editing BibTeX files
 -- and inserting items in LaTeX or ConTeXt files.
 --
@@ -9,10 +9,7 @@
 -- [MIT license](http://www.opensource.org/licenses/mit-license.php).
 --
 -- ## Installation
--- Download a
--- [zipped](https://github.com/rgieseke/ta-bibtex/zipball/master)
--- version and save the contained directory as `.textadept/modules/bibtex`
--- or clone the git repository:
+-- Clone the git repository to your `.textadept` directory:
 --     cd ~/.textadept/modules
 --     git clone https://github.com/rgieseke/ta-bibtex.git bibtex
 --
