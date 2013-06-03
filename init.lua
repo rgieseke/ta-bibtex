@@ -38,12 +38,6 @@
 --     }
 local M = {}
 
--- ## Settings
-
--- Sets default buffer properties for BibTeX files.
-function M.set_buffer_properties()
-
-end
 
 -- ## Fields
 
