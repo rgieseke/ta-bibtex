@@ -28,24 +28,26 @@
   <div class="pilwrap">
     <a class="pilcrow" href="#section-1">&#182;</a>
   </div>
-  
-<p>The bibtex module for the
+  <p>The bibtex module for the
 <a href="http://foicica.com/textadept/">Textadept</a> editor.
 It provides helpers for editing BibTeX files
 and inserting items in LaTeX or ConTeXt files.</p>
 
-<p>The source is on
-<a href="https://github.com/rgieseke/ta-bibtex">GitHub</a>,
+<p>The <a href="https://github.com/rgieseke/ta-bibtex">source</a> is on
+GitHub,
 released under the
 <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.</p>
 
 <h2>Installation</h2>
+
 <p>Clone the git repository to your <code>.textadept</code> directory:</p>
+
 <pre><code>cd ~/.textadept/modules
 git clone https://github.com/rgieseke/ta-bibtex.git bibtex
 </code></pre>
 
 <h2>Usage</h2>
+
 <p>You can load this module in your LaTeX or ConTeXt module, define the
 locations of your BibTeX files and include it in snippets.
 To only add a key you could assign <code>select_reference</code> to a shortcut key.<br>
@@ -54,27 +56,27 @@ of writing BibTeX files. For me it worked well with the output from
 <a href="http://scholar.google.com/intl/en/scholar/help.html#export">Google Scholar</a>
 and other sources.<br>
 Example code in your <code>tex</code> or <code>latex</code> module:</p>
+
 <pre><code>_M.bibtex = require('bibtex')
 _M.bibtex.files = {'/home/robert/documents/bibligraphy.bib'}
 
 -- ConTeXt snippet example
 snippets.tex = {
-    -- ...
+    -- …
     c = "\\cite[%&lt;_M.bibtex.select_reference()&gt;]%0",
 }
 
 -- LaTeX snippet example
-snippets.tex = {
-    -- ...
+snippets.latex = {
+    -- …
     c = "\\cite{%&lt;_M.bibtex.select_reference()&gt;}%0",
 }
 </code></pre>
 
-
 </td>
 <td class="code">
-  <div class="highlight"><pre><span class="k">local</span> M = {}
-
+  <div class="highlight"><pre>
+<span class="k">local</span> M = {}
 </pre></div>
 </td>
 </tr><tr id="section-2">
@@ -82,9 +84,7 @@ snippets.tex = {
   <div class="pilwrap">
     <a class="pilcrow" href="#section-2">&#182;</a>
   </div>
-  
-<h2>Fields</h2>
-
+  <h2>Fields</h2>
 
 </td>
 <td class="code">
@@ -96,9 +96,7 @@ snippets.tex = {
   <div class="pilwrap">
     <a class="pilcrow" href="#section-3">&#182;</a>
   </div>
-  
-<p><strong>_M.bibtex.files</strong>: A table with BibTeX files.</p>
-
+  <p><strong>_M.bibtex.files</strong>: A table with BibTeX files.</p>
 
 </td>
 <td class="code">
@@ -110,14 +108,11 @@ snippets.tex = {
   <div class="pilwrap">
     <a class="pilcrow" href="#section-4">&#182;</a>
   </div>
-  
-<p><strong>_M.bibtex.references</strong>: A table with references and their BibTeX key.</p>
-
+  <p><strong>_M.bibtex.references</strong>: A table with references and their BibTeX key.</p>
 
 </td>
 <td class="code">
   <div class="highlight"><pre>M.references = {}
-
 </pre></div>
 </td>
 </tr><tr id="section-5">
@@ -125,9 +120,7 @@ snippets.tex = {
   <div class="pilwrap">
     <a class="pilcrow" href="#section-5">&#182;</a>
   </div>
-  
-<h2>Commands</h2>
-
+  <h2>Commands</h2>
 
 </td>
 <td class="code">
@@ -139,10 +132,8 @@ snippets.tex = {
   <div class="pilwrap">
     <a class="pilcrow" href="#section-6">&#182;</a>
   </div>
-  
-<p>Try to read entries from a BibTeX file. Author, year and title are
+  <p>Try to read entries from a BibTeX file. Author, year and title are
 joined for an entry in the <code>references</code> table, followed by its BibTeX key.</p>
-
 
 </td>
 <td class="code">
@@ -155,8 +146,8 @@ joined for an entry in the <code>references</code> table, followed by its BibTeX
     author = bibentry:match(<span class="s">'author&#37;s*=&#37;s*["{]*(.-)["}],?'</span>)..<span class="s">', '</span> <span class="o">or</span> <span class="s">''</span>
     year = bibentry:match(<span class="s">'year&#37;s*=&#37;s*["{]?(&#37;d+)["}]?,?'</span>)..<span class="s">', '</span> <span class="o">or</span> <span class="s">''</span>
     title = bibentry:match(<span class="s">'title&#37;s*=&#37;s*["{]*(.-)["}],?'</span>) <span class="o">or</span> <span class="s">''</span>
-    references[#references + 1] = author..year..title
-    references[#references + 1] = key
+    M.references[#M.references + 1] = author..year..title
+    M.references[#M.references + 1] = key
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
@@ -166,15 +157,13 @@ joined for an entry in the <code>references</code> table, followed by its BibTeX
   <div class="pilwrap">
     <a class="pilcrow" href="#section-7">&#182;</a>
   </div>
-  
-<p>Read BibTeX entries from the files listed in the <code>files</code> table.</p>
-
+  <p>Read BibTeX entries from the files listed in the <code>files</code> table.</p>
 
 </td>
 <td class="code">
   <div class="highlight"><pre><span class="k">local</span> <span class="k">function</span> <span class="nf">read_bibfiles</span>()
   references = {}
-  <span class="k">for</span> _, bibfile <span class="k">in</span> <span class="nt">ipairs</span>(_m.bibtex.files) <span class="k">do</span>
+  <span class="k">for</span> _, bibfile <span class="k">in</span> <span class="nt">ipairs</span>(M.files) <span class="k">do</span>
     parse_entries(bibfile)
   <span class="k">end</span>
 <span class="k">end</span>
@@ -185,23 +174,26 @@ joined for an entry in the <code>references</code> table, followed by its BibTeX
   <div class="pilwrap">
     <a class="pilcrow" href="#section-8">&#182;</a>
   </div>
-  
-<p>Present a filtered list dialog and return the BibTeX key of the selected
+  <p>Present a filtered list dialog and return the BibTeX key of the selected
 entry.</p>
-
 
 </td>
 <td class="code">
   <div class="highlight"><pre><span class="k">function</span> <span class="nf">M.select_reference</span>()
-  <span class="k">if</span> #files > 0 <span class="o">and</span> #references == 0 <span class="k">then</span>
+  <span class="k">if</span> #M.files > 0 <span class="o">and</span> #M.references == 0 <span class="k">then</span>
     read_bibfiles()
   <span class="k">end</span>
-  <span class="k">if</span> #references > 0 <span class="k">then</span>
-    <span class="k">local</span> out = gui.filteredlist(<span class="s">'References'</span>, {<span class="s">'Reference'</span>, <span class="s">'Key'</span>},
-                                 references, <span class="k">false</span>, <span class="s">'--output-column'</span>, <span class="s">'2'</span>,
-                                 <span class="s">'--width'</span>, <span class="s">'800'</span>)
-    <span class="k">if</span> out <span class="k">then</span>
-      <span class="k">return</span> out <span class="c">-- the BibTeX key
+  <span class="k">if</span> #M.references > 0 <span class="k">then</span>
+    <span class="k">local</span> status, item = ui.dialogs.filteredlist{
+      title=<span class="s">'References'</span>,
+      columns={<span class="s">'Reference'</span>, <span class="s">'Key'</span>},
+      items=M.references,
+      string_output=<span class="k">true</span>,
+      [<span class="s">'output-column'</span>]=2,
+      width=900
+    }
+    <span class="k">if</span> item <span class="k">then</span>
+      <span class="k">return</span> item <span class="c">-- the BibTeX key
 </span>    <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -213,9 +205,7 @@ entry.</p>
   <div class="pilwrap">
     <a class="pilcrow" href="#section-9">&#182;</a>
   </div>
-  
-<h2>Snippets</h2>
-
+  <h2>Snippets</h2>
 
 </td>
 <td class="code">
@@ -227,9 +217,7 @@ entry.</p>
   <div class="pilwrap">
     <a class="pilcrow" href="#section-10">&#182;</a>
   </div>
-  
-<p>Container for BibTeX-specific snippets.</p>
-
+  <p>Container for BibTeX-specific snippets.</p>
 
 </td>
 <td class="code">
