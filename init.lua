@@ -3,8 +3,8 @@
 -- It provides helpers for editing BibTeX files
 -- and inserting items in LaTeX or ConTeXt files.
 --
--- The source is on
--- [GitHub](https://github.com/rgieseke/ta-bibtex),
+-- The [source](https://github.com/rgieseke/ta-bibtex) is on
+-- GitHub,
 -- released under the
 -- [MIT license](http://www.opensource.org/licenses/mit-license.php).
 --
@@ -27,17 +27,17 @@
 --
 --     -- ConTeXt snippet example
 --     snippets.tex = {
---         -- ...
+--         -- …
 --         c = "\\cite[%%<_M.bibtex.select_reference()>]%%0",
 --     }
 --
 --     -- LaTeX snippet example
---     snippets.tex = {
---         -- ...
+--     snippets.latex = {
+--         -- …
 --         c = "\\cite{%%<_M.bibtex.select_reference()>}%%0",
 --     }
-local M = {}
 
+local M = {}
 
 -- ## Fields
 
@@ -46,7 +46,6 @@ M.files = {}
 
 -- ___M.bibtex.references__: A table with references and their BibTeX key.
 M.references = {}
-
 
 -- ## Commands
 
@@ -61,15 +60,15 @@ local function parse_entries(filename)
     author = bibentry:match('author%s*=%s*["{]*(.-)["}],?')..', ' or ''
     year = bibentry:match('year%s*=%s*["{]?(%d+)["}]?,?')..', ' or ''
     title = bibentry:match('title%s*=%s*["{]*(.-)["}],?') or ''
-    references[#references + 1] = author..year..title
-    references[#references + 1] = key
+    M.references[#M.references + 1] = author..year..title
+    M.references[#M.references + 1] = key
   end
 end
 
 -- Read BibTeX entries from the files listed in the `files` table.
 local function read_bibfiles()
   references = {}
-  for _, bibfile in ipairs(_m.bibtex.files) do
+  for _, bibfile in ipairs(M.files) do
     parse_entries(bibfile)
   end
 end
@@ -77,15 +76,20 @@ end
 -- Present a filtered list dialog and return the BibTeX key of the selected
 -- entry.
 function M.select_reference()
-  if #files > 0 and #references == 0 then
+  if #M.files > 0 and #M.references == 0 then
     read_bibfiles()
   end
-  if #references > 0 then
-    local out = gui.filteredlist('References', {'Reference', 'Key'},
-                                 references, false, '--output-column', '2',
-                                 '--width', '800')
-    if out then
-      return out -- the BibTeX key
+  if #M.references > 0 then
+    local status, item = ui.dialogs.filteredlist{
+      title='References',
+      columns={'Reference', 'Key'},
+      items=M.references,
+      string_output=true,
+      ['output-column']=2,
+      width=900
+    }
+    if item then
+      return item -- the BibTeX key
     end
   end
 end
