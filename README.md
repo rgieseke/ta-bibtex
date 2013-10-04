@@ -5,4 +5,4 @@ More info in the
 
 ### License
 
-[MIT](http://www.opensource.org/licenses/mit-license.php) - 2011, Robert Gieseke, robert.gieseke@gmail.com
+[MIT](http://www.opensource.org/licenses/mit-license.php) - 2011-2013, Robert Gieseke, rob.g@web.de
